@@ -1,6 +1,14 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
+  <div class="shopping-items" v-if="items != null">
+    <section class="card" v-for="(item, index) in items.items" :key="index">
+      <a class="card-link" v-bind:href="item.productUrl" target="_blank">
+        <img class="card-img" v-bind:src="item.productImageUrl" alt="">
+        <div class="card-content">
+          <p class="card-text">{{item.productName}}</p>
+          {{item.productPrice}}円
+        </div>
+      </a>
+    </section>
   </div>
 </template>
 
@@ -9,7 +17,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 
 @Component
 export default class ItemList extends Vue {
-  @Prop() public msg = [];
+  @Prop() public items?: any = null;
 }
 </script>
 
@@ -22,11 +30,45 @@ ul {
   list-style-type: none;
   padding: 0;
 }
-li {
-  display: inline-block;
+.shopping-list {
+  display: inline-flex;
+}
+.card {
+  width: 300px;
+  background: #fff;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px #ccc;
+}
+.card-img {
+  border-radius: 5px 5px 0 0;
+  max-width: 100%;
+  height: auto;
+}
+.card-content {
+  padding: 20px;
+}
+.card-title {
+  font-size: 20px;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #333;
+}
+.card-text {
+  color: #777;
+  font-size: 14px;
+  line-height: 1.5;
+}
+.card-link {
+  text-align: center;
+  border-top: 1px solid #eee;
+  padding: 20px;
+}
+.card-link a {
+  text-decoration: none;
+  color: #0bd;
   margin: 0 10px;
 }
-a {
-  color: #42b983;
+.card-link a:hover {
+  color: #0090aa;
 }
 </style>
