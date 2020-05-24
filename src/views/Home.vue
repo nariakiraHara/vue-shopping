@@ -2,7 +2,7 @@
   <div class="shopping">
     <input class="search-text" v-model="searchText" />
     <button class="btn-square-pop" v-on:click="searchItem">検索</button>
-    <RakutenItemList :items="rakutenItems"/>
+    <RakutenItemList :items="rakutenItems" :companyName="targetCompany"/>
   </div>
 </template>
 
@@ -10,24 +10,30 @@
 // @ is an alias to /src
 import { Component, Vue} from 'vue-property-decorator'
 import RakutenItemList from '@/components/ItemList.vue'
+import AmazonItemList from '@/components/ItemList.vue'
 import Rakuten from '@/repository/rakutenRepository'
 
 @Component({
   components: {
     RakutenItemList,
+    AmazonItemList
   },
 })
+
 
 export default class Home extends Vue {
   public rakutenItems?: any = null
   public searchText = ''
+  public targetCompany = ''
 
   public searchItem() {
     if (!this.searchText) {
       return
     }
+    // 楽天の商品情報取得結果を受ける
     Rakuten.getList(this.searchText).then((result) => {
       this.rakutenItems = result
+      this.targetCompany = `楽天`
     })
   }
 
